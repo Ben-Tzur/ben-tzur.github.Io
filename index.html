@@ -9,17 +9,17 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --white:   #FFFFFF;
-      --bg:      #F7F7F5;
+      --bg:      #F5F5F3;
       --surface: #FFFFFF;
       --fg:      #111110;
       --muted:   #888884;
-      --border:  #E8E8E4;
-      --accent:  #1A1A18;
+      --border:  #E4E4E0;
+      --hover:   #F0F0EC;
+      --blue:    #1A73E8;
+      --blue-bg: #EBF3FD;
       --red:     #D63B2F;
-      --hover:   #F3F3F0;
-      --play-bg: #111110;
-      --radius:  16px;
+      --red-bg:  #FDF0EF;
+      --red-br:  #FACEC9;
     }
 
     html { scroll-behavior: smooth; }
@@ -32,59 +32,53 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ====== LAYOUT ====== */
     .page {
-      max-width: 1100px;
+      max-width: 1160px;
       margin: 0 auto;
       padding: 3rem 2rem 5rem;
     }
 
-    /* ====== HERO CARD ====== */
-    .hero-card {
+    /* ===== HERO ===== */
+    .hero {
       background: var(--surface);
       border-radius: 28px;
       border: 1px solid var(--border);
-      padding: 2.5rem;
+      padding: 2.5rem 3rem;
+      margin-bottom: 2.5rem;
       display: flex;
+      align-items: center;
       gap: 2.5rem;
-      align-items: flex-start;
-      margin-bottom: 2rem;
     }
 
-    .album-art-wrap {
+    /* artist avatar — initials fallback, image on top */
+    .artist-avatar {
       flex-shrink: 0;
-      width: 220px;
-    }
-
-    .album-art {
-      width: 220px;
-      height: 220px;
-      border-radius: 18px;
-      object-fit: cover;
-      display: block;
-      border: 1px solid var(--border);
-    }
-
-    .album-art-placeholder {
-      width: 220px;
-      height: 220px;
-      border-radius: 18px;
-      background: var(--bg);
-      border: 1px solid var(--border);
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2D2D2B 0%, #555550 100%);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 2rem;
+      font-weight: 900;
+      color: white;
+      letter-spacing: -0.03em;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid var(--border);
     }
 
-    .hero-meta {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 220px;
+    .artist-avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
     }
 
-    .hero-top { }
+    .hero-text { flex: 1; }
 
     .hero-tag {
       display: inline-flex;
@@ -93,72 +87,39 @@
       font-family: 'Space Grotesk', sans-serif;
       font-size: 11px;
       font-weight: 500;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--red);
-      background: #FDF0EF;
-      border: 1px solid #FACEC9;
+      background: var(--red-bg);
+      border: 1px solid var(--red-br);
       border-radius: 100px;
-      padding: 5px 14px;
-      margin-bottom: 1.2rem;
+      padding: 4px 12px;
+      margin-bottom: 0.9rem;
     }
 
     .hero-tag::before {
       content: '';
-      width: 6px;
-      height: 6px;
+      width: 5px; height: 5px;
       border-radius: 50%;
       background: var(--red);
-      flex-shrink: 0;
     }
 
     .hero-title {
-      font-family: 'Heebo', sans-serif;
       font-weight: 900;
-      font-size: clamp(2.8rem, 5vw, 4.2rem);
-      line-height: 1;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
       letter-spacing: -0.02em;
-      color: var(--fg);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
     }
 
-    .hero-artist {
-      font-size: 1.05rem;
-      font-weight: 400;
+    .hero-sub {
+      font-size: 14px;
       color: var(--muted);
-      margin-bottom: 0;
+      margin-bottom: 1.4rem;
     }
 
-    .hero-bottom { }
+    .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 
-    .hero-stats {
-      display: flex;
-      gap: 2rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .stat { }
-
-    .stat-num {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: var(--fg);
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 0.75rem;
-    }
-
-    /* ====== BUTTONS ====== */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -170,16 +131,12 @@
       padding: 10px 22px;
       cursor: pointer;
       border: none;
-      text-decoration: none;
-      transition: all 0.15s ease;
+      transition: all 0.15s;
       white-space: nowrap;
     }
 
-    .btn-primary {
-      background: var(--fg);
-      color: white;
-    }
-    .btn-primary:hover { background: #333; }
+    .btn-dark { background: var(--fg); color: white; }
+    .btn-dark:hover { background: #333; }
 
     .btn-ghost {
       background: transparent;
@@ -188,227 +145,255 @@
     }
     .btn-ghost:hover { background: var(--hover); }
 
-    .btn svg { flex-shrink: 0; }
-
-    /* ====== SECTION HEADER ====== */
-    .section-hdr {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      font-family: 'Space Grotesk', sans-serif;
-      text-transform: uppercase;
-    }
-
-    .track-count {
-      font-size: 12px;
-      color: var(--muted);
-      font-family: 'Space Grotesk', sans-serif;
-    }
-
-    /* ====== TRACKLIST ====== */
-    .tracklist-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .track-header-row {
-      display: grid;
-      grid-template-columns: 52px 1fr 100px 120px 44px;
-      gap: 0 1rem;
-      padding: 0.7rem 1.25rem;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg);
-    }
-
-    .th {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    /* ====== TRACK ROW ====== */
-    .track-row {
-      animation: rise 0.35s cubic-bezier(.2,.8,.2,1) both;
-    }
-
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .track-row:not(:last-child) .track-inner {
-      border-bottom: 1px solid var(--border);
-    }
-
-    .track-inner {
-      display: grid;
-      grid-template-columns: 52px 1fr 100px 120px 44px;
-      align-items: center;
-      gap: 0 1rem;
-      padding: 0.85rem 1.25rem;
-      cursor: pointer;
-      transition: background 0.12s;
-    }
-
-    .track-inner:hover { background: var(--hover); }
-    .track-row.playing .track-inner { background: #F0F8FF; }
-
-    .track-num-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .track-num {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    .bars-icon {
-      display: flex;
-      align-items: flex-end;
-      gap: 2px;
-      height: 14px;
-    }
-
-    .bar {
-      width: 3px;
-      background: #1A73E8;
-      border-radius: 2px;
-      animation: bar-bounce 0.65s ease-in-out infinite alternate;
-    }
-
-    .bar:nth-child(1) { height: 8px; animation-delay: 0s; }
-    .bar:nth-child(2) { height: 14px; animation-delay: 0.18s; }
-    .bar:nth-child(3) { height: 10px; animation-delay: 0.09s; }
-
-    @keyframes bar-bounce {
-      from { transform: scaleY(0.3); }
-      to   { transform: scaleY(1); }
-    }
-
-    .track-main { display: flex; align-items: center; gap: 14px; overflow: hidden; }
-
-    .track-thumb {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
-      object-fit: cover;
+    .hero-stat {
+      margin-right: auto;
+      text-align: left;
       flex-shrink: 0;
-      border: 1px solid var(--border);
-      background: var(--bg);
     }
 
-    .track-info { overflow: hidden; }
-
-    .track-name {
-      font-size: 15px;
-      font-weight: 500;
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      line-height: 1;
       color: var(--fg);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      transition: color 0.12s;
     }
 
-    .track-row.playing .track-name { color: #1A73E8; }
-
-    .track-name-sub {
+    .stat-label {
       font-size: 12px;
       color: var(--muted);
       margin-top: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .track-dur {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 13px;
-      color: var(--muted);
-      text-align: center;
     }
 
-    /* progress column */
-    .track-prog-wrap {
-      position: relative;
-      height: 36px;
+    /* ===== SECTION HEADER ===== */
+    .sec-hdr {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
     }
 
-    .track-prog {
-      width: 100%;
-      height: 3px;
-      background: #E8E8E4;
-      border-radius: 100px;
+    .sec-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ===== CARDS GRID ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+
+    /* ===== SONG CARD ===== */
+    .song-card {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
       cursor: pointer;
-      overflow: visible;
+      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+      animation: rise 0.4s cubic-bezier(.2,.8,.2,1) both;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
-    .track-prog-fill {
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .song-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.09);
+      border-color: #D0D0CC;
+    }
+
+    .song-card.playing {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 2px rgba(26,115,232,0.15);
+    }
+
+    /* art area */
+    .card-art {
+      width: 100%;
+      aspect-ratio: 1;
+      position: relative;
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    .card-art img {
+      width: 100%;
       height: 100%;
-      background: #1A73E8;
-      border-radius: 100px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s;
+    }
+
+    .song-card:hover .card-art img { transform: scale(1.04); }
+
+    /* placeholder when no image loads */
+    .card-art-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #E8E8E4 0%, #D8D8D4 100%);
+    }
+
+    .card-art-placeholder svg { opacity: 0.35; }
+
+    /* track number badge */
+    .card-num {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 3px 8px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* play overlay button */
+    .card-play-overlay {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--fg);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.18s, transform 0.18s, background 0.15s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .song-card:hover .card-play-overlay,
+    .song-card.playing .card-play-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .song-card.playing .card-play-overlay {
+      background: var(--blue);
+    }
+
+    /* progress bar on art */
+    .card-prog-bar {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.25);
+      display: none;
+    }
+
+    .song-card.playing .card-prog-bar { display: block; }
+
+    .card-prog-fill {
+      height: 100%;
+      background: var(--blue);
       width: 0%;
       transition: width 0.1s linear;
     }
 
-    .track-prog-empty {
-      width: 100%;
-      height: 3px;
-      background: var(--border);
-      border-radius: 100px;
+    /* playing pulse ring */
+    .card-play-overlay.is-playing::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid var(--blue);
+      animation: pulse-ring 1.4s ease-out infinite;
     }
 
-    /* play button */
-    .track-play-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      cursor: pointer;
+    @keyframes pulse-ring {
+      0%   { opacity: 0.6; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+
+    /* animated bars inside play btn */
+    .mini-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+    }
+
+    .mini-bar {
+      width: 3px;
+      background: white;
+      border-radius: 2px;
+      animation: bar-b 0.65s ease-in-out infinite alternate;
+    }
+
+    .mini-bar:nth-child(1) { height: 7px; animation-delay: 0s; }
+    .mini-bar:nth-child(2) { height: 12px; animation-delay: 0.18s; }
+    .mini-bar:nth-child(3) { height: 9px; animation-delay: 0.09s; }
+
+    @keyframes bar-b {
+      from { transform: scaleY(0.3); }
+      to   { transform: scaleY(1); }
+    }
+
+    /* card body */
+    .card-body {
+      padding: 14px 16px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-name {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--fg);
+      transition: color 0.15s;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .song-card.playing .card-name { color: var(--blue); }
+
+    .card-footer {
       display: flex;
       align-items: center;
-      justify-content: center;
-      transition: all 0.15s;
-      color: var(--fg);
-      flex-shrink: 0;
+      justify-content: space-between;
+      margin-top: auto;
     }
 
-    .track-play-btn:hover {
-      background: var(--fg);
-      color: white;
-      border-color: var(--fg);
+    .card-dur {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
     }
 
-    .track-row.playing .track-play-btn {
-      background: #1A73E8;
-      color: white;
-      border-color: #1A73E8;
-    }
-
-    /* download button */
-    .track-dl-btn {
-      width: 30px;
-      height: 30px;
+    .card-dl {
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       border: 1px solid var(--border);
       background: transparent;
@@ -416,19 +401,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.15s;
       color: var(--muted);
       text-decoration: none;
-      flex-shrink: 0;
+      transition: all 0.15s;
     }
 
-    .track-dl-btn:hover {
-      background: var(--fg);
-      color: white;
-      border-color: var(--fg);
-    }
+    .card-dl:hover { background: var(--fg); color: white; border-color: var(--fg); }
 
-    /* ====== LOADING ====== */
+    /* ===== LOADING / ERROR ===== */
     #loading {
       padding: 4rem 0;
       text-align: center;
@@ -436,6 +416,7 @@
       font-size: 13px;
       letter-spacing: 0.08em;
       color: var(--muted);
+      grid-column: 1 / -1;
     }
 
     .spin {
@@ -446,22 +427,21 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ====== ERROR ====== */
     #error-msg {
-      padding: 1.5rem;
+      padding: 1.25rem 1.5rem;
       color: var(--red);
       font-family: 'Space Grotesk', sans-serif;
       font-size: 13px;
-      border: 1px solid #FACEC9;
+      border: 1px solid var(--red-br);
       border-radius: 12px;
-      background: #FDF0EF;
+      background: var(--red-bg);
       display: none;
-      margin-top: 1rem;
+      grid-column: 1 / -1;
     }
 
-    /* ====== FOOTER ====== */
+    /* ===== FOOTER ===== */
     footer {
-      margin-top: 2.5rem;
+      margin-top: 3rem;
       text-align: center;
       font-family: 'Space Grotesk', sans-serif;
       font-size: 11px;
@@ -470,94 +450,59 @@
       text-transform: uppercase;
     }
 
-    /* ====== RESPONSIVE ====== */
-    @media (max-width: 700px) {
-      .page { padding: 1.5rem 1rem 4rem; }
-
-      .hero-card {
-        flex-direction: column;
-        gap: 1.5rem;
-        padding: 1.5rem;
-      }
-
-      .album-art-wrap { width: 100%; }
-      .album-art, .album-art-placeholder {
-        width: 100%;
-        height: 220px;
-      }
-
-      .hero-meta { min-height: unset; }
-
-      .track-header-row,
-      .track-inner {
-        grid-template-columns: 36px 1fr 44px;
-      }
-
-      .th:nth-child(3), .th:nth-child(4),
-      .track-dur, .track-prog-wrap { display: none; }
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .page { padding: 1.25rem 1rem 4rem; }
+      .hero { flex-wrap: wrap; gap: 1.25rem; padding: 1.5rem; }
+      .hero-stat { margin-right: 0; }
+      .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
     }
   </style>
 </head>
 <body>
-
 <div class="page">
 
   <!-- HERO -->
-  <div class="hero-card">
-    <div class="album-art-wrap">
+  <div class="hero">
+    <div class="artist-avatar" id="artist-avatar">
+      בצ
       <img
-        id="main-album-art"
-        src="https://www.prog.co.il/attachments/1779620094443-png.2252968/?hash=a4f7499190adf18fce28d82c032a559d"
+        id="artist-img"
+        src=""
         alt="בן צור"
-        class="album-art"
-        onerror="this.outerHTML='<div class=\'album-art-placeholder\'><svg width=\'48\' height=\'48\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#ccc\' stroke-width=\'1.5\'><circle cx=\'12\' cy=\'12\' r=\'10\'/><circle cx=\'12\' cy=\'10\' r=\'3\'/><path d=\'M6.2 19.4a6 6 0 0111.6 0\'/></svg></div>'"
+        onerror="this.remove()"
       />
     </div>
-    <div class="hero-meta">
-      <div class="hero-top">
-        <div class="hero-tag">האוסף המלא</div>
-        <h1 class="hero-title">הלהיטים של<br>בן צור</h1>
-        <p class="hero-artist">אוסף הרשמי &mdash; unofficial mixtape</p>
+
+    <div class="hero-text">
+      <div class="hero-tag">האוסף המלא</div>
+      <h1 class="hero-title">הלהיטים של בן צור</h1>
+      <p class="hero-sub">unofficial mixtape &mdash; לשימוש אישי בלבד</p>
+      <div class="hero-actions">
+        <button class="btn btn-dark" onclick="playAll()">
+          <svg width="12" height="13" viewBox="0 0 12 13" fill="currentColor"><path d="M0 0l12 6.5L0 13z"/></svg>
+          נגן הכל
+        </button>
+        <button class="btn btn-ghost" onclick="shuffleAll()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+          ערבב
+        </button>
       </div>
-      <div class="hero-bottom">
-        <div class="hero-stats">
-          <div class="stat">
-            <div class="stat-num" id="total-tracks">–</div>
-            <div class="stat-label">שירים</div>
-          </div>
-        </div>
-        <div class="hero-actions">
-          <button class="btn btn-primary" id="play-all-btn" onclick="playAll()">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M2 1.5l10 5.5-10 5.5V1.5z"/></svg>
-            נגן הכל
-          </button>
-          <button class="btn btn-ghost" id="shuffle-btn" onclick="shufflePlay()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
-              <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
-            </svg>
-            ערבב
-          </button>
-        </div>
-      </div>
+    </div>
+
+    <div class="hero-stat">
+      <div class="stat-num" id="total-num">–</div>
+      <div class="stat-label">שירים</div>
     </div>
   </div>
 
-  <!-- TRACKLIST -->
-  <div class="section-hdr">
-    <span class="section-title">רשימת שירים</span>
-    <span class="track-count" id="count-label"></span>
+  <!-- CARDS -->
+  <div class="sec-hdr">
+    <span class="sec-title">רשימת שירים</span>
+    <span class="sec-title" id="count-lbl" style="letter-spacing:0"></span>
   </div>
 
-  <div class="tracklist-card">
-    <div class="track-header-row">
-      <span class="th" style="text-align:center">#</span>
-      <span class="th">שיר</span>
-      <span class="th" style="text-align:center">מד</span>
-      <span class="th">התקדמות</span>
-      <span class="th"></span>
-    </div>
-
+  <div class="cards-grid" id="cards-grid">
     <div id="loading">
       <svg class="spin" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <circle cx="12" cy="12" r="10" stroke-opacity="0.18"/>
@@ -565,136 +510,99 @@
       </svg>
       טוען שירים...
     </div>
-
     <div id="error-msg"><span id="error-text"></span></div>
-    <div id="tracklist"></div>
   </div>
 
-  <footer>לשימוש אישי בלבד &bull; unofficial &bull; all rights reserved</footer>
+  <footer>unofficial &bull; all rights reserved &bull; לשימוש אישי בלבד</footer>
 </div>
 
 <script>
-  const PLAY_ICON  = `<svg width="13" height="14" viewBox="0 0 13 14" fill="currentColor"><path d="M1 1.5l11 5.5-11 5.5V1.5z"/></svg>`;
-  const PAUSE_ICON = `<svg width="13" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="0" width="4" height="14" rx="1.5"/><rect x="9" y="0" width="4" height="14" rx="1.5"/></svg>`;
-  const BARS_HTML  = `<div class="bars-icon"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>`;
-  const DL_ICON    = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+  const PLAY_SVG  = `<svg width="12" height="13" viewBox="0 0 12 13" fill="currentColor"><path d="M1 1l10 5.5L1 12V1z"/></svg>`;
+  const PAUSE_SVG = `<svg width="12" height="13" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="0" width="4" height="14" rx="1.5"/><rect x="9" y="0" width="4" height="14" rx="1.5"/></svg>`;
+  const BARS_SVG  = `<div class="mini-bars"><div class="mini-bar"></div><div class="mini-bar"></div><div class="mini-bar"></div></div>`;
+  const DL_SVG    = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+  const NOTE_SVG  = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`;
 
-  let curAudio = null, curRow = null, curIdx = -1;
-  let allRows = [], allAudios = [], allSongs = [];
+  let curAudio = null, curCard = null, curIdx = -1;
+  let cards = [], audios = [], songs = [];
 
   const fmt = s => isNaN(s) ? '--:--' : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
 
   function parse(raw) {
-    return raw.trim().split(/\n[ \t]*\n/).reduce((a, blk) => {
+    return raw.trim().split(/\n[ \t]*\n/).reduce((acc, blk) => {
       const ls = blk.trim().split('\n').map(l => l.trim()).filter(Boolean);
-      if (ls.length >= 3) a.push({ name: ls[0], img: ls[1], audio: ls[2] });
-      return a;
+      if (ls.length >= 3) acc.push({ name: ls[0], img: ls[1], audio: ls[2] });
+      return acc;
     }, []);
   }
-
-  const BLANK = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'><rect width='48' height='48' fill='%23EBEBEB' rx='8'/></svg>`;
 
   function stopCurrent() {
     if (!curAudio) return;
     curAudio.pause();
-    if (curRow) {
-      const i = parseInt(curRow.dataset.idx);
-      curRow.classList.remove('playing');
-      curRow.querySelector('.track-play-btn').innerHTML = PLAY_ICON;
-      const n = curRow.querySelector('.track-num');
-      n.innerHTML = String(i+1).padStart(2,'0');
-      curRow.querySelector('.track-prog-fill').style.width = '0%';
-      const dur = curRow.querySelector('.track-dur');
-      if (dur) dur.textContent = curAudio.duration ? fmt(curAudio.duration) : '--:--';
+    if (curCard) {
+      curCard.classList.remove('playing');
+      const btn = curCard.querySelector('.card-play-overlay');
+      btn.classList.remove('is-playing');
+      btn.innerHTML = PLAY_SVG;
+      curCard.querySelector('.card-prog-fill').style.width = '0%';
     }
   }
 
-  function playRow(idx) {
+  function playIdx(idx) {
     stopCurrent();
-    const row = allRows[idx];
-    const audio = allAudios[idx];
-    if (!row || !audio) return;
+    const card  = cards[idx];
+    const audio = audios[idx];
+    if (!card || !audio) return;
 
     audio.play().catch(() => {});
-    curAudio = audio;
-    curRow = row;
-    curIdx = idx;
+    curAudio = audio; curCard = card; curIdx = idx;
 
-    row.classList.add('playing');
-    row.querySelector('.track-play-btn').innerHTML = PAUSE_ICON;
-    const n = row.querySelector('.track-num');
-    n.innerHTML = BARS_HTML;
-
-    // update hero art
-    const heroArt = document.getElementById('main-album-art');
-    if (heroArt) {
-      heroArt.src = allSongs[idx].img;
-      heroArt.onerror = () => { heroArt.src = BLANK; };
-    }
+    card.classList.add('playing');
+    const btn = card.querySelector('.card-play-overlay');
+    btn.classList.add('is-playing');
+    btn.innerHTML = BARS_SVG;
   }
 
-  function playAll() { if (allRows.length) playRow(0); }
+  function playAll()    { if (cards.length) playIdx(0); }
+  function shuffleAll() { if (cards.length) playIdx(Math.floor(Math.random() * cards.length)); }
 
-  function shufflePlay() {
-    if (!allRows.length) return;
-    const idx = Math.floor(Math.random() * allRows.length);
-    playRow(idx);
-  }
+  function makeCard(song, idx) {
+    const card = document.createElement('div');
+    card.className = 'song-card';
+    card.dataset.idx = idx;
+    card.style.animationDelay = `${idx * 0.05}s`;
 
-  function makeRow(song, idx) {
-    const row = document.createElement('div');
-    row.className = 'track-row';
-    row.dataset.idx = idx;
-    row.style.animationDelay = `${idx * 0.04}s`;
-
-    row.innerHTML = `
-      <div class="track-inner">
-        <div class="track-num-wrap">
-          <span class="track-num">${String(idx+1).padStart(2,'0')}</span>
+    card.innerHTML = `
+      <div class="card-art">
+        <img src="${song.img}" alt="${song.name}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=card-art-placeholder>${NOTE_SVG.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>'">
+        <div class="card-num">${String(idx+1).padStart(2,'0')}</div>
+        <button class="card-play-overlay" aria-label="נגן">${PLAY_SVG}</button>
+        <div class="card-prog-bar"><div class="card-prog-fill"></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${song.name}</div>
+        <div class="card-footer">
+          <span class="card-dur">--:--</span>
+          <a class="card-dl" href="${song.audio}" download="${song.name}.mp3" aria-label="הורד" title="הורד">${DL_SVG}</a>
         </div>
-        <div class="track-main">
-          <img class="track-thumb" src="${song.img}" alt="${song.name}" loading="lazy">
-          <div class="track-info">
-            <div class="track-name">${song.name}</div>
-            <div class="track-name-sub">בן צור</div>
-          </div>
-        </div>
-        <div class="track-dur">--:--</div>
-        <div class="track-prog-wrap">
-          <div class="track-prog"><div class="track-prog-fill"></div></div>
-        </div>
-        <button class="track-play-btn" aria-label="נגן את ${song.name}">${PLAY_ICON}</button>
       </div>`;
+
+    // fix onerror inline escaping — just set it via JS
+    const img = card.querySelector('.card-art img');
+    img.onerror = () => {
+      img.parentNode.innerHTML = `<div class="card-art-placeholder">${NOTE_SVG}</div>`;
+    };
 
     const audio = new Audio(song.audio);
     audio.preload = 'metadata';
-    allAudios[idx] = audio;
+    audios[idx] = audio;
 
-    const img     = row.querySelector('.track-thumb');
-    const btn     = row.querySelector('.track-play-btn');
-    const inner   = row.querySelector('.track-inner');
-    const prog    = row.querySelector('.track-prog');
-    const fill    = row.querySelector('.track-prog-fill');
-    const durEl   = row.querySelector('.track-dur');
+    const overlay  = card.querySelector('.card-play-overlay');
+    const fill     = card.querySelector('.card-prog-fill');
+    const durEl    = card.querySelector('.card-dur');
+    const dlBtn    = card.querySelector('.card-dl');
 
-    img.onerror = () => { img.src = BLANK; };
-
-    audio.addEventListener('loadedmetadata', () => {
-      durEl.textContent = fmt(audio.duration);
-    });
-
-    inner.addEventListener('click', () => {
-      if (curAudio === audio && !audio.paused) {
-        stopCurrent();
-      } else if (curAudio === audio && audio.paused) {
-        audio.play().catch(() => {});
-        row.classList.add('playing');
-        btn.innerHTML = PAUSE_ICON;
-        row.querySelector('.track-num').innerHTML = BARS_HTML;
-      } else {
-        playRow(idx);
-      }
-    });
+    audio.addEventListener('loadedmetadata', () => { durEl.textContent = fmt(audio.duration); });
 
     audio.addEventListener('timeupdate', () => {
       if (audio.duration) {
@@ -707,64 +615,57 @@
       stopCurrent();
       audio.currentTime = 0;
       durEl.textContent = fmt(audio.duration);
-      // autoplay next
-      if (idx + 1 < allRows.length) playRow(idx + 1);
+      if (idx + 1 < cards.length) playIdx(idx + 1);
     });
 
-    prog.addEventListener('click', e => {
-      if (!audio.duration) return;
-      const r = prog.getBoundingClientRect();
-      // RTL: right edge is start
-      const ratio = 1 - ((e.clientX - r.left) / r.width);
-      audio.currentTime = ratio * audio.duration;
-      e.stopPropagation();
+    // click on card (but not dl button)
+    card.addEventListener('click', e => {
+      if (e.target.closest('.card-dl')) return;
+      if (curAudio === audio && !audio.paused) {
+        stopCurrent();
+      } else if (curAudio === audio && audio.paused) {
+        audio.play().catch(() => {});
+        card.classList.add('playing');
+        overlay.classList.add('is-playing');
+        overlay.innerHTML = BARS_SVG;
+      } else {
+        playIdx(idx);
+      }
     });
 
-    return row;
+    dlBtn.addEventListener('click', e => e.stopPropagation());
+
+    return card;
   }
 
   async function init() {
+    const grid   = document.getElementById('cards-grid');
     const loadEl = document.getElementById('loading');
     const errEl  = document.getElementById('error-msg');
     const errTxt = document.getElementById('error-text');
-    const list   = document.getElementById('tracklist');
+
+    // try to load artist image (may fail due to CORS / hotlink protection)
+    const artistImg = document.getElementById('artist-img');
+    artistImg.src = 'https://www.prog.co.il/attachments/1779620094443-png.2252968/?hash=a4f7499190adf18fce28d82c032a559d';
 
     try {
-      const res  = await fetch('./להיטים.txt');
+      const res = await fetch('./להיטים.txt');
       if (!res.ok) throw new Error(`להיטים.txt לא נמצא (HTTP ${res.status})`);
-      const songs = parse(await res.text());
+      songs = parse(await res.text());
       if (!songs.length) throw new Error('הקובץ ריק או לא בפורמט הנכון');
 
-      allSongs = songs;
-      loadEl.style.display = 'none';
-
-      document.getElementById('total-tracks').textContent = songs.length;
-      document.getElementById('count-label').textContent = `${songs.length} שירים`;
+      loadEl.remove();
+      document.getElementById('total-num').textContent = songs.length;
+      document.getElementById('count-lbl').textContent = songs.length + ' שירים';
 
       songs.forEach((s, i) => {
-        const row = makeRow(s, i);
-        allRows[i] = row;
-        list.appendChild(row);
-      });
-
-      // add download buttons after rows exist
-      songs.forEach((s, i) => {
-        const row = allRows[i];
-        const inner = row.querySelector('.track-inner');
-        const dlBtn = document.createElement('a');
-        dlBtn.className = 'track-dl-btn';
-        dlBtn.href = s.audio;
-        dlBtn.download = s.name + '.mp3';
-        dlBtn.setAttribute('aria-label', 'הורד את ' + s.name);
-        dlBtn.innerHTML = DL_ICON;
-        dlBtn.addEventListener('click', e => e.stopPropagation());
-        // insert before play button
-        const playBtn = inner.querySelector('.track-play-btn');
-        inner.insertBefore(dlBtn, playBtn);
+        const c = makeCard(s, i);
+        cards[i] = c;
+        grid.appendChild(c);
       });
 
     } catch (e) {
-      loadEl.style.display = 'none';
+      loadEl.remove();
       errTxt.textContent = e.message;
       errEl.style.display = 'block';
     }
