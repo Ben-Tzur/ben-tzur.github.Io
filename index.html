@@ -314,6 +314,12 @@
 </div>
 
 <script>
+  // wsrv.nl is a free image proxy that bypasses hotlink protection
+  function imgProxy(url) {
+    if (!url || url.startsWith('data:')) return url;
+    return 'https://wsrv.nl/?url=' + encodeURIComponent(url) + '&n=-1';
+  }
+
   const PLAY_SVG  = `<svg width="12" height="13" viewBox="0 0 12 13" fill="currentColor"><path d="M1 1l10 5.5L1 12V1z"/></svg>`;
   const PAUSE_SVG = `<svg width="11" height="13" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="0" width="4.5" height="14" rx="1.5"/><rect x="8.5" y="0" width="4.5" height="14" rx="1.5"/></svg>`;
   const BARS_SVG  = `<div class="mini-bars"><div class="mini-bar"></div><div class="mini-bar"></div><div class="mini-bar"></div></div>`;
@@ -434,7 +440,7 @@
 
     card.innerHTML = `
       <div class="card-art">
-        <img src="${escapedImg}" alt="${escapedName}" loading="lazy">
+        <img alt="${escapedName}" loading="lazy">
         <div class="card-num">${String(displayNum).padStart(2,'0')}</div>
         <button class="card-play-btn" aria-label="נגן">${PLAY_SVG}</button>
         <div class="card-prog-area">
@@ -454,10 +460,13 @@
 
     const img = card.querySelector('.card-art img');
     img.onerror = () => {
+      // if proxy failed too, show placeholder
       const ph = document.createElement('div');
       ph.className = 'card-art-ph'; ph.innerHTML = NOTE_SVG;
       img.replaceWith(ph);
     };
+    // route through image proxy to bypass hotlink protection
+    img.src = imgProxy(song.img);
 
     const audio = new Audio(song.audio);
     audio.preload = 'none';
