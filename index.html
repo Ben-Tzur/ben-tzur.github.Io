@@ -331,7 +331,7 @@
   const fmt = s => isNaN(s)||!isFinite(s) ? '--:--' : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
 
   function parse(raw) {
-    return raw.trim().split(/\n[ \t]*\n/).reduce((acc, blk) => {
+    return raw.trim().split(/\n\s*\n+/).reduce((acc, blk) => {
       const ls = blk.trim().split('\n').map(l => l.trim()).filter(Boolean);
       if (ls.length >= 3) acc.push({ name: ls[0], img: ls[1], audio: ls[2] });
       return acc;
@@ -546,10 +546,19 @@
 
       if (!mainRes.ok) throw new Error(`להיטים.txt לא נמצא (HTTP ${mainRes.status})`);
 
-      allSongs = parse(await mainRes.text());
+      const rawMain = await mainRes.text();
+      console.log('להיטים.txt raw length:', rawMain.length, 'first100:', rawMain.slice(0,100));
+      allSongs = parse(rawMain);
+      console.log('parsed songs:', allSongs.length, allSongs.map(s=>s.name));
       if (!allSongs.length) throw new Error('הקובץ ריק או לא בפורמט הנכון');
 
-      featuredSongs = (featRes && featRes.ok) ? parse(await featRes.text()) : [];
+      let rawFeat = '';
+      if (featRes && featRes.ok) {
+        rawFeat = await featRes.text();
+        console.log('ראשי.txt raw length:', rawFeat.length, 'first100:', rawFeat.slice(0,100));
+      }
+      featuredSongs = rawFeat ? parse(rawFeat) : [];
+      console.log('featured songs:', featuredSongs.length, featuredSongs.map(s=>s.name));
 
       // sort allSongs a-b by name (Hebrew aware)
       const sorted = [...allSongs].sort((a, b) =>
