@@ -314,10 +314,34 @@
 </div>
 
 <script>
-  // wsrv.nl is a free image proxy that bypasses hotlink protection
-  function imgProxy(url) {
-    if (!url || url.startsWith('data:')) return url;
-    return 'https://wsrv.nl/?url=' + encodeURIComponent(url) + '&n=-1';
+  // Generate a deterministic gradient placeholder from song name
+  function colorFromStr(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
+    const hue = Math.abs(h) % 360;
+    return [
+      `hsl(${hue},40%,72%)`,
+      `hsl(${(hue+40)%360},45%,58%)`
+    ];
+  }
+
+  function makePlaceholderCanvas(name, size=240) {
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const ctx = c.getContext('2d');
+    const [c1, c2] = colorFromStr(name);
+    const g = ctx.createLinearGradient(0, 0, size, size);
+    g.addColorStop(0, c1);
+    g.addColorStop(1, c2);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, size, size);
+    // music note icon
+    ctx.fillStyle = 'rgba(255,255,255,0.45)';
+    ctx.font = `bold ${size*0.38}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('♪', size/2, size/2);
+    return c.toDataURL();
   }
 
   const PLAY_SVG  = `<svg width="12" height="13" viewBox="0 0 12 13" fill="currentColor"><path d="M1 1l10 5.5L1 12V1z"/></svg>`;
@@ -459,14 +483,12 @@
       </div>`;
 
     const img = card.querySelector('.card-art img');
+    // Try to load the real image; on any failure use a canvas gradient placeholder
     img.onerror = () => {
-      // if proxy failed too, show placeholder
-      const ph = document.createElement('div');
-      ph.className = 'card-art-ph'; ph.innerHTML = NOTE_SVG;
-      img.replaceWith(ph);
+      img.src = makePlaceholderCanvas(song.name);
+      img.onerror = null; // prevent infinite loop
     };
-    // route through image proxy to bypass hotlink protection
-    img.src = imgProxy(song.img);
+    img.src = song.img;
 
     const audio = new Audio(song.audio);
     audio.preload = 'none';
