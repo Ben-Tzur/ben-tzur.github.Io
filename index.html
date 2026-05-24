@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>הלהיטים של בן צור</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Frank+Ruhl+Libre:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #F4F0E8;
+      --fg:      #0E0D0B;
+      --muted:   #8A8478;
+      --accent:  #B8180A;
+      --border:  rgba(14,13,11,0.1);
+      --hover:   rgba(14,13,11,0.035);
+      --playing: rgba(184,24,10,0.05);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Frank Ruhl Libre', Georgia, serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ====== HERO ====== */
+    .hero {
+      position: relative;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 4.5rem 3.5rem 3.5rem;
+      overflow: hidden;
+    }
+
+    .hero-wm {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .hero-wm span {
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(5rem, 16vw, 12rem);
+      font-weight: 500;
+      color: var(--fg);
+      opacity: 0.028;
+      transform: rotate(-10deg) translateY(-5%);
+      white-space: nowrap;
+      letter-spacing: 0.06em;
+      user-select: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+
+    .hero-left { flex: 1; }
+
+    .stamp {
+      font-family: 'DM Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 4px 12px;
+      display: inline-block;
+      transform: rotate(-2deg);
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-title {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-weight: 900;
+      font-size: clamp(3.2rem, 7.5vw, 6rem);
+      line-height: 0.87;
+      letter-spacing: -0.01em;
+      color: var(--fg);
+    }
+
+    .hero-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.32em;
+      color: var(--muted);
+      margin-top: 1.4rem;
+      text-transform: uppercase;
+    }
+
+    .hero-right { flex-shrink: 0; }
+
+    .artist-img {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      filter: sepia(12%) contrast(1.06);
+      border: 2px solid rgba(14,13,11,0.14);
+    }
+
+    .hero-divider {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 3.5rem;
+    }
+
+    .hero-divider hr {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ====== MAIN ====== */
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 3.5rem 6rem;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 1.6rem 0 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    /* ====== LOADING ====== */
+    #loading {
+      padding: 5rem 0;
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+    }
+
+    .spin {
+      display: block;
+      margin: 0 auto 1.2rem;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ====== ERROR ====== */
+    #error-msg {
+      padding: 1.5rem;
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--accent);
+      display: none;
+      margin-top: 1rem;
+    }
+
+    /* ====== TRACKLIST ====== */
+    #tracklist { border-top: 1px solid var(--border); }
+
+    /* header row */
+    .track-header {
+      display: grid;
+      grid-template-columns: 48px 68px 1fr 36px;
+      gap: 0 1.25rem;
+      padding: 0.4rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .track-header span {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* each row */
+    .track-row {
+      position: relative;
+      animation: rise 0.4s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .track-row.playing { background: var(--playing); }
+
+    .track-inner {
+      display: grid;
+      grid-template-columns: 48px 68px 1fr 36px;
+      align-items: center;
+      gap: 0 1.25rem;
+      padding: 0.55rem 0.5rem;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      border-radius: 3px;
+      transition: background 0.12s;
+    }
+
+    .track-inner:hover { background: var(--hover); }
+    .track-row.playing .track-inner { border-bottom-color: transparent; }
+
+    /* playing left-edge indicator (visual left = CSS left, not RTL-flipped) */
+    .track-row.playing::before {
+      content: '';
+      position: absolute;
+      right: -3.5rem; /* outside the track, reaching to padding edge */
+      top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      border-radius: 0 2px 2px 0;
+    }
+
+    .track-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1;
+    }
+
+    .track-thumb {
+      width: 68px;
+      height: 68px;
+      object-fit: cover;
+      display: block;
+      border-radius: 2px;
+    }
+
+    .track-info { overflow: hidden; }
+
+    .track-name {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.3;
+      color: var(--fg);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.15s;
+    }
+
+    .track-row.playing .track-name { color: var(--accent); }
+
+    .track-play {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--fg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: background 0.12s;
+    }
+
+    .track-play:hover { background: rgba(14,13,11,0.08); }
+    .track-row.playing .track-play { color: var(--accent); }
+
+    /* progress bar — only visible while playing */
+    .track-prog {
+      height: 2px;
+      background: rgba(14,13,11,0.08);
+      cursor: pointer;
+      display: none;
+      position: relative;
+    }
+
+    .track-row.playing .track-prog { display: block; }
+
+    .track-prog-fill {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.1s linear;
+      position: relative;
+    }
+
+    /* scrubber dot */
+    .track-prog-fill::after {
+      content: '';
+      position: absolute;
+      left: -4px; /* RTL: last pixel of fill */
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .track-prog:hover .track-prog-fill::after { opacity: 1; }
+
+    /* animated bars icon when playing */
+    .bars-icon {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 2px;
+      height: 14px;
+    }
+
+    .bar {
+      width: 3px;
+      background: var(--accent);
+      border-radius: 1px;
+      animation: bar-bounce 0.7s ease-in-out infinite alternate;
+    }
+
+    .bar:nth-child(1) { animation-delay: 0s;    height: 10px; }
+    .bar:nth-child(2) { animation-delay: 0.2s;  height: 14px; }
+    .bar:nth-child(3) { animation-delay: 0.1s;  height: 8px; }
+
+    @keyframes bar-bounce {
+      from { transform: scaleY(0.3); }
+      to   { transform: scaleY(1); }
+    }
+
+    /* ====== FOOTER ====== */
+    footer {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2rem 3.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .foot-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .foot-txt {
+      font-family: 'DM Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 640px) {
+      .hero, main, .hero-divider, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .hero-title { font-size: 3rem; }
+      .artist-img { width: 90px; height: 90px; }
+      .track-inner, .track-header {
+        grid-template-columns: 32px 52px 1fr 30px;
+        gap: 0 0.9rem;
+      }
+      .track-thumb { width: 52px; height: 52px; }
+      .track-row.playing::before { right: -1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-wm" aria-hidden="true"><span>LEAKED</span></div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="stamp">גנוב &bull; unauthorized</div>
+      <h1 class="hero-title">הלהיטים<br>של בן צור</h1>
+      <p class="hero-sub">the definitive collection &mdash; unofficial</p>
+    </div>
+    <div class="hero-right">
+      <img
+        src="https://www.prog.co.il/attachments/1779620094443-png.2252968/?hash=a4f7499190adf18fce28d82c032a559d"
+        alt="בן צור"
+        class="artist-img"
+        onerror="this.style.opacity='0'"
+      />
+    </div>
+  </div>
+</header>
+
+<div class="hero-divider"><hr></div>
+
+<main>
+  <div class="section-label">רשימת הלהיטים</div>
+
+  <div id="loading">
+    <svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="12" cy="12" r="10" stroke-opacity="0.18"/>
+      <path d="M12 2a10 10 0 0110 10" stroke-linecap="round"/>
+    </svg>
+    טוען...
+  </div>
+
+  <div id="error-msg"><span id="error-text"></span></div>
+  <div id="tracklist"></div>
+</main>
+
+<footer>
+  <div class="foot-left">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--muted)" aria-hidden="true">
+      <path d="M12 4C9.5 4 8 5.8 8 8c0 1.8 1 3.2 2.6 3.8V14h.9l.5 3h4l.5-3h.9v-2.2C18.9 11.2 20 9.8 20 8c0-2.2-1.5-4-4-4h-4zm-2.5 11v2h5v-2h-5z"/>
+    </svg>
+    <span class="foot-txt">unofficial mixtape</span>
+  </div>
+  <span class="foot-txt">לשימוש אישי בלבד</span>
+</footer>
+
+<script>
+  const PLAY  = `<svg width="12" height="13" viewBox="0 0 12 13" fill="currentColor"><path d="M0 0l12 6.5L0 13V0z"/></svg>`;
+  const PAUSE = `<svg width="12" height="13" viewBox="0 0 12 13" fill="currentColor"><rect x="0" y="0" width="4.5" height="13" rx="1"/><rect x="7.5" y="0" width="4.5" height="13" rx="1"/></svg>`;
+  const BARS  = `<div class="bars-icon"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>`;
+
+  let curAudio = null, curRow = null;
+
+  const fmt = s => isNaN(s) ? '–:––' : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+
+  function parse(raw) {
+    return raw.trim().split(/\n[ \t]*\n/).reduce((a, blk) => {
+      const ls = blk.trim().split('\n').map(l => l.trim()).filter(Boolean);
+      if (ls.length >= 3) a.push({ name: ls[0], img: ls[1], audio: ls[2] });
+      return a;
+    }, []);
+  }
+
+  const BLANK = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='68' height='68'><rect width='68' height='68' fill='%23CCC7BB'/></svg>`;
+
+  function makeRow(song, idx) {
+    const row = document.createElement('div');
+    row.className = 'track-row';
+    row.dataset.idx = idx;
+    row.style.animationDelay = `${idx * 0.042}s`;
+
+    row.innerHTML = `
+      <div class="track-inner">
+        <span class="track-num">${String(idx+1).padStart(2,'0')}</span>
+        <img class="track-thumb" src="${song.img}" alt="${song.name}" loading="lazy">
+        <div class="track-info"><div class="track-name">${song.name}</div></div>
+        <button class="track-play" aria-label="נגן את ${song.name}">${PLAY}</button>
+      </div>
+      <div class="track-prog"><div class="track-prog-fill"></div></div>`;
+
+    const audio  = new Audio(song.audio);
+    audio.preload = 'none';
+
+    const img    = row.querySelector('.track-thumb');
+    const btn    = row.querySelector('.track-play');
+    const inner  = row.querySelector('.track-inner');
+    const prog   = row.querySelector('.track-prog');
+    const fill   = row.querySelector('.track-prog-fill');
+    const numEl  = row.querySelector('.track-num');
+
+    img.onerror = () => { img.src = BLANK; };
+
+    let on = false;
+
+    function stop() {
+      audio.pause();
+      on = false;
+      row.classList.remove('playing');
+      btn.innerHTML = PLAY;
+      numEl.textContent = String(idx+1).padStart(2,'0');
+      numEl.style.fontSize = '';
+      fill.style.width = '0%';
+    }
+
+    function start() {
+      if (curAudio && curAudio !== audio) {
+        curAudio.pause();
+        if (curRow) {
+          const i = parseInt(curRow.dataset.idx);
+          curRow.classList.remove('playing');
+          curRow.querySelector('.track-play').innerHTML = PLAY;
+          const n = curRow.querySelector('.track-num');
+          n.innerHTML = String(i+1).padStart(2,'0');
+          n.style.fontSize = '';
+          curRow.querySelector('.track-prog-fill').style.width = '0%';
+        }
+      }
+      audio.play().catch(() => {});
+      on = true;
+      row.classList.add('playing');
+      btn.innerHTML = PAUSE;
+      numEl.innerHTML = BARS;
+      curAudio = audio;
+      curRow   = row;
+    }
+
+    inner.addEventListener('click', () => on ? stop() : start());
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+    });
+
+    audio.addEventListener('ended', () => { stop(); audio.currentTime = 0; });
+
+    prog.addEventListener('click', e => {
+      if (!audio.duration) return;
+      const r = prog.getBoundingClientRect();
+      audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+      e.stopPropagation();
+    });
+
+    return row;
+  }
+
+  async function init() {
+    const loadEl = document.getElementById('loading');
+    const errEl  = document.getElementById('error-msg');
+    const errTxt = document.getElementById('error-text');
+    const list   = document.getElementById('tracklist');
+
+    try {
+      const res  = await fetch('./להיטים.txt');
+      if (!res.ok) throw new Error(`להיטים.txt לא נמצא (HTTP ${res.status})`);
+      const songs = parse(await res.text());
+      if (!songs.length) throw new Error('הקובץ ריק או לא בפורמט הנכון');
+      loadEl.style.display = 'none';
+      songs.forEach((s, i) => list.appendChild(makeRow(s, i)));
+    } catch (e) {
+      loadEl.style.display = 'none';
+      errTxt.textContent = e.message;
+      errEl.style.display = 'block';
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>
