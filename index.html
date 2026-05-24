@@ -17,7 +17,6 @@
     body { background:var(--bg); color:var(--fg); font-family:'Heebo',sans-serif; min-height:100vh; -webkit-font-smoothing:antialiased; }
     .page { max-width:1160px; margin:0 auto; padding:3rem 2rem 5rem; }
 
-    /* HERO */
     .hero {
       background:var(--surface); border-radius:28px; border:1px solid var(--border);
       padding:2.5rem 3rem; margin-bottom:2.5rem;
@@ -56,7 +55,6 @@
     .stat-num { font-family:'Space Grotesk',sans-serif; font-size:2.4rem; font-weight:600; line-height:1; }
     .stat-label { font-size:12px; color:var(--muted); margin-top:2px; font-family:'Space Grotesk',sans-serif; }
 
-    /* SEARCH + SECTION HEADER */
     .sec-hdr { display:flex; align-items:center; gap:1rem; margin-bottom:1.25rem; flex-wrap:wrap; }
     .sec-title { font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
     .search-wrap { position:relative; flex:1; max-width:320px; }
@@ -74,10 +72,8 @@
     .search-clear:hover { color:var(--fg); }
     .count-lbl { font-family:'Space Grotesk',sans-serif; font-size:12px; color:var(--muted); margin-right:auto; }
 
-    /* CARDS GRID */
     .cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:1rem; }
 
-    /* SONG CARD */
     .song-card {
       background:var(--surface); border-radius:20px; border:1px solid var(--border);
       overflow:hidden; cursor:pointer;
@@ -90,7 +86,6 @@
     .song-card.playing { border-color:var(--blue); box-shadow:0 0 0 2px var(--blue-lt); }
     .song-card.hidden { display:none; }
 
-    /* ART */
     .card-art { width:100%; aspect-ratio:1; position:relative; background:var(--bg); overflow:hidden; }
     .card-art img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.3s; }
     .song-card:hover .card-art img { transform:scale(1.04); }
@@ -102,7 +97,6 @@
       font-size:11px; font-weight:600; color:var(--muted); padding:3px 8px;
     }
 
-    /* PLAY BUTTON */
     .card-play-btn {
       position:absolute; bottom:12px; left:12px;
       width:44px; height:44px; border-radius:50%;
@@ -121,29 +115,33 @@
     }
     @keyframes pulse-ring { 0%{opacity:.6;transform:scale(1);} 100%{opacity:0;transform:scale(1.6);} }
 
-    /* PROGRESS OVERLAY */
+    /* progress overlay — always visible on playing card, hover on others */
     .card-prog-area {
       position:absolute; bottom:0; left:0; right:0;
       padding:28px 12px 10px;
       background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,transparent 100%);
       opacity:0; transition:opacity 0.2s; z-index:3;
+      pointer-events:none;
     }
-    .song-card.playing .card-prog-area { opacity:1; }
+    .song-card.playing .card-prog-area { opacity:1; pointer-events:all; }
+    .song-card:hover .card-prog-area { opacity:1; }
+
     .prog-track {
-      width:100%; height:4px; background:rgba(255,255,255,0.3);
+      width:100%; height:4px; background:rgba(255,255,255,0.35);
       border-radius:100px; cursor:pointer; position:relative;
-      /* bigger hit area */
-      padding:8px 0; margin:-8px 0; box-sizing:content-box;
     }
-    .prog-track-inner { width:100%; height:4px; background:rgba(255,255,255,0.3); border-radius:100px; position:relative; overflow:visible; }
+    /* large invisible hit area */
+    .prog-track::before {
+      content:''; position:absolute; inset:-10px;
+    }
     .prog-fill {
       height:100%; background:white; border-radius:100px;
-      width:0%; transition:width 0.1s linear; position:relative;
+      width:0%; transition:width 0.1s linear; position:relative; pointer-events:none;
     }
     .prog-fill::after {
-      content:''; position:absolute; left:-6px; top:50%; transform:translateY(-50%);
+      content:''; position:absolute; left:-7px; top:50%; transform:translateY(-50%);
       width:14px; height:14px; border-radius:50%;
-      background:white; box-shadow:0 1px 4px rgba(0,0,0,0.35);
+      background:white; box-shadow:0 1px 4px rgba(0,0,0,0.4);
       opacity:0; transition:opacity 0.15s;
     }
     .prog-track:hover .prog-fill::after,
@@ -154,25 +152,22 @@
       color:rgba(255,255,255,0.85); font-weight:500; pointer-events:none;
     }
 
-    /* LOADING INDICATOR inside card while fetching via proxy */
     .card-loading {
-      position:absolute; inset:0; background:rgba(255,255,255,0.7);
-      display:none; align-items:center; justify-content:center; z-index:5;
+      position:absolute; inset:0; background:rgba(255,255,255,0.65);
+      display:none; align-items:center; justify-content:center; z-index:5; border-radius:20px 20px 0 0;
     }
     .song-card.buffering .card-loading { display:flex; }
     .spin-sm { animation:spin 0.9s linear infinite; }
     @keyframes spin { to{transform:rotate(360deg);} }
 
-    /* ERROR BADGE */
     .card-err-badge {
       position:absolute; bottom:0; left:0; right:0;
-      background:rgba(214,59,47,0.9); color:white;
+      background:rgba(214,59,47,0.88); color:white;
       font-family:'Space Grotesk',sans-serif; font-size:10px;
       text-align:center; padding:5px 6px; display:none;
     }
     .song-card.load-err .card-err-badge { display:block; }
 
-    /* MINI BARS */
     .mini-bars { display:flex; align-items:flex-end; gap:2px; height:13px; }
     .mini-bar { width:3px; background:white; border-radius:2px; animation:bar-b 0.65s ease-in-out infinite alternate; }
     .mini-bar:nth-child(1){height:7px;animation-delay:0s;}
@@ -180,7 +175,6 @@
     .mini-bar:nth-child(3){height:9px;animation-delay:0.09s;}
     @keyframes bar-b { from{transform:scaleY(0.3);} to{transform:scaleY(1);} }
 
-    /* CARD BODY */
     .card-body { padding:14px 16px 16px; flex:1; display:flex; flex-direction:column; gap:10px; }
     .card-name { font-size:14px; font-weight:700; line-height:1.35; color:var(--fg); transition:color 0.15s; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
     .song-card.playing .card-name { color:var(--blue); }
@@ -194,10 +188,8 @@
     }
     .card-dl:hover { background:var(--fg); color:white; border-color:var(--fg); }
 
-    /* NO RESULTS */
     .no-results { grid-column:1/-1; text-align:center; padding:4rem 0; color:var(--muted); font-family:'Space Grotesk',sans-serif; font-size:14px; display:none; }
 
-    /* LOADING */
     #loading { grid-column:1/-1; padding:4rem 0; text-align:center; font-family:'Space Grotesk',sans-serif; font-size:13px; letter-spacing:0.08em; color:var(--muted); }
     .spin-lg { display:block; margin:0 auto 1rem; animation:spin 1s linear infinite; }
     #error-msg { grid-column:1/-1; padding:1.25rem 1.5rem; color:var(--red); font-family:'Space Grotesk',sans-serif; font-size:13px; border:1px solid var(--red-br); border-radius:12px; background:var(--red-bg); display:none; }
@@ -270,25 +262,12 @@
 </div>
 
 <script>
-  // ─── CORS PROXY ────────────────────────────────────────────────────────────
-  // allorigins.win wraps any URL and adds Access-Control-Allow-Origin: *
-  // We use the /raw/ endpoint which streams the file as-is.
-  function proxyUrl(original) {
-    // If the URL is already on the same origin or is a data URL, return as-is
-    try {
-      const u = new URL(original);
-      if (u.origin === location.origin) return original;
-    } catch(e) { return original; }
-    return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(original);
-  }
-
-  // ─── SVG / HTML CONSTANTS ──────────────────────────────────────────────────
   const PLAY_SVG  = `<svg width="12" height="13" viewBox="0 0 12 13" fill="currentColor"><path d="M1 1l10 5.5L1 12V1z"/></svg>`;
   const PAUSE_SVG = `<svg width="11" height="13" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="0" width="4.5" height="14" rx="1.5"/><rect x="8.5" y="0" width="4.5" height="14" rx="1.5"/></svg>`;
   const BARS_SVG  = `<div class="mini-bars"><div class="mini-bar"></div><div class="mini-bar"></div><div class="mini-bar"></div></div>`;
   const DL_SVG    = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
   const NOTE_SVG  = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#AAA" stroke-width="1"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`;
-  const SPIN_SVG  = `<svg class="spin-sm" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A73E8" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.2"/><path d="M12 2a10 10 0 0110 10" stroke-linecap="round"/></svg>`;
+  const SPIN_SVG  = `<svg class="spin-sm" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1A73E8" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.2"/><path d="M12 2a10 10 0 0110 10" stroke-linecap="round"/></svg>`;
 
   let curAudio = null, curCard = null, curIdx = -1;
   let cards = [], audios = [], songs = [];
@@ -324,7 +303,7 @@
     card.querySelector('.card-play-btn').innerHTML = BARS_SVG;
 
     audio.play()
-      .then(() => { card.classList.remove('buffering'); })
+      .then(() => card.classList.remove('buffering'))
       .catch(err => {
         console.warn('play failed:', err.message);
         card.classList.remove('playing', 'buffering');
@@ -334,11 +313,9 @@
   }
 
   function visibleList() { return cards.filter(c => !c.classList.contains('hidden')); }
+  function playAll()     { const v = visibleList(); if (v.length) playIdx(+v[0].dataset.idx); }
+  function shuffleAll()  { const v = visibleList(); if (v.length) playIdx(+v[Math.floor(Math.random()*v.length)].dataset.idx); }
 
-  function playAll()    { const v = visibleList(); if (v.length) playIdx(+v[0].dataset.idx); }
-  function shuffleAll() { const v = visibleList(); if (v.length) playIdx(+v[Math.floor(Math.random()*v.length)].dataset.idx); }
-
-  /* SEARCH */
   function onSearch(val) {
     const q = val.trim().toLowerCase();
     document.getElementById('search-clear').style.display = q ? 'flex' : 'none';
@@ -353,16 +330,13 @@
   }
   function clearSearch() { document.getElementById('search').value = ''; onSearch(''); }
 
-  /* SCRUB HELPERS */
   function scrubTo(audio, progTrack, clientX) {
     if (!audio.duration) return;
     const r = progTrack.getBoundingClientRect();
-    // RTL: right edge = start (0%), left edge = end (100%)
-    const ratio = 1 - (clientX - r.left) / r.width;
+    const ratio = 1 - (clientX - r.left) / r.width; // RTL
     audio.currentTime = Math.max(0, Math.min(1, ratio)) * audio.duration;
   }
 
-  /* MAKE CARD */
   function makeCard(song, idx) {
     const card = document.createElement('div');
     card.className = 'song-card';
@@ -376,9 +350,7 @@
         <button class="card-play-btn" aria-label="נגן">${PLAY_SVG}</button>
         <div class="card-prog-area">
           <div class="prog-track">
-            <div class="prog-track-inner">
-              <div class="prog-fill"></div>
-            </div>
+            <div class="prog-fill"></div>
           </div>
           <div class="prog-times">
             <span class="t-cur">0:00</span>
@@ -386,7 +358,7 @@
           </div>
         </div>
         <div class="card-loading">${SPIN_SVG}</div>
-        <div class="card-err-badge">שגיאת טעינה &mdash; CORS</div>
+        <div class="card-err-badge">שגיאת CORS — הורד את הקובץ ישירות</div>
       </div>
       <div class="card-body">
         <div class="card-name">${song.name}</div>
@@ -396,42 +368,33 @@
         </div>
       </div>`;
 
-    /* image — proxy helps if hotlink blocked */
+    // image
     const img = card.querySelector('.card-art img');
-    img.onerror = () => {
-      const ph = document.createElement('div');
-      ph.className = 'card-art-ph';
-      ph.innerHTML = NOTE_SVG;
-      img.replaceWith(ph);
-    };
-    img.src = song.img; // try direct first; onerror catches
+    img.onerror = () => { const ph = document.createElement('div'); ph.className='card-art-ph'; ph.innerHTML=NOTE_SVG; img.replaceWith(ph); };
+    img.src = song.img;
 
-    /* audio — proxied through allorigins */
-    const proxiedSrc = proxyUrl(song.audio);
-    const audio = new Audio(proxiedSrc);
+    // audio — NO crossOrigin, direct src, exactly like first working version
+    const audio = new Audio(song.audio);
     audio.preload = 'none';
     audios[idx] = audio;
 
-    const progTrack  = card.querySelector('.prog-track');
-    const progFill   = card.querySelector('.prog-fill');
-    const tCur       = card.querySelector('.t-cur');
-    const tDur       = card.querySelector('.t-dur');
-    const durEl      = card.querySelector('.card-dur');
+    const progTrack = card.querySelector('.prog-track');
+    const progFill  = card.querySelector('.prog-fill');
+    const tCur      = card.querySelector('.t-cur');
+    const tDur      = card.querySelector('.t-dur');
+    const durEl     = card.querySelector('.card-dur');
 
     audio.addEventListener('loadedmetadata', () => {
       tDur.textContent = fmt(audio.duration);
       durEl.textContent = fmt(audio.duration);
     });
-
     audio.addEventListener('timeupdate', () => {
       if (!audio.duration) return;
       progFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
       tCur.textContent = fmt(audio.currentTime);
     });
-
     audio.addEventListener('waiting', () => { card.classList.add('buffering'); });
     audio.addEventListener('playing', () => { card.classList.remove('buffering'); });
-
     audio.addEventListener('ended', () => {
       stopCurrent();
       audio.currentTime = 0;
@@ -441,58 +404,27 @@
       const ci = vis.findIndex(c => +c.dataset.idx === idx);
       if (ci !== -1 && ci + 1 < vis.length) playIdx(+vis[ci+1].dataset.idx);
     });
-
     audio.addEventListener('error', () => {
-      card.classList.remove('buffering');
-      if (card.classList.contains('playing')) {
-        card.classList.remove('playing');
+      if (card.classList.contains('playing') || card.classList.contains('buffering')) {
+        card.classList.remove('playing','buffering');
         card.classList.add('load-err');
-        if (curCard === card) { curAudio = null; curCard = null; curIdx = -1; }
+        if (curCard === card) { curAudio=null; curCard=null; curIdx=-1; }
       }
     });
 
-    /* SCRUB — click */
-    progTrack.addEventListener('click', e => {
-      e.stopPropagation();
-      if (curCard !== card) return;
-      scrubTo(audio, progTrack, e.clientX);
-    });
+    // scrub — click
+    progTrack.addEventListener('click', e => { e.stopPropagation(); scrubTo(audio, progTrack, e.clientX); });
 
-    /* SCRUB — drag (mouse) */
+    // scrub — drag
     let dragging = false;
-    progTrack.addEventListener('mousedown', e => {
-      if (curCard !== card) return;
-      dragging = true;
-      progTrack.classList.add('dragging');
-      e.stopPropagation();
-    });
-    document.addEventListener('mousemove', e => {
-      if (!dragging) return;
-      scrubTo(audio, progTrack, e.clientX);
-    });
-    document.addEventListener('mouseup', () => {
-      if (!dragging) return;
-      dragging = false;
-      progTrack.classList.remove('dragging');
-    });
+    progTrack.addEventListener('mousedown', e => { dragging=true; progTrack.classList.add('dragging'); e.stopPropagation(); });
+    document.addEventListener('mousemove', e => { if(dragging) scrubTo(audio, progTrack, e.clientX); });
+    document.addEventListener('mouseup',   () => { if(dragging){ dragging=false; progTrack.classList.remove('dragging'); } });
+    progTrack.addEventListener('touchstart', e => { dragging=true; progTrack.classList.add('dragging'); e.stopPropagation(); },{passive:true});
+    document.addEventListener('touchmove',   e => { if(dragging) scrubTo(audio, progTrack, e.touches[0].clientX); },{passive:true});
+    document.addEventListener('touchend',    () => { dragging=false; progTrack.classList.remove('dragging'); });
 
-    /* SCRUB — touch */
-    progTrack.addEventListener('touchstart', e => {
-      if (curCard !== card) return;
-      dragging = true;
-      progTrack.classList.add('dragging');
-      e.stopPropagation();
-    }, {passive:true});
-    document.addEventListener('touchmove', e => {
-      if (!dragging) return;
-      scrubTo(audio, progTrack, e.touches[0].clientX);
-    }, {passive:true});
-    document.addEventListener('touchend', () => {
-      dragging = false;
-      progTrack.classList.remove('dragging');
-    });
-
-    /* CARD CLICK */
+    // card click
     card.addEventListener('click', e => {
       if (e.target.closest('.card-dl') || e.target.closest('.prog-track')) return;
       if (curAudio === audio) {
@@ -512,11 +444,9 @@
     });
 
     card.querySelector('.card-dl').addEventListener('click', e => e.stopPropagation());
-
     return card;
   }
 
-  /* INIT */
   async function init() {
     const grid   = document.getElementById('grid');
     const loadEl = document.getElementById('loading');
@@ -524,7 +454,7 @@
     const errTxt = document.getElementById('error-text');
 
     const ai = document.getElementById('artist-img');
-    ai.src = proxyUrl('https://www.prog.co.il/attachments/1779620094443-png.2252968/?hash=a4f7499190adf18fce28d82c032a559d');
+    ai.src = 'https://www.prog.co.il/attachments/1779620094443-png.2252968/?hash=a4f7499190adf18fce28d82c032a559d';
     ai.onerror = () => ai.remove();
 
     try {
@@ -553,3 +483,5 @@
 </script>
 </body>
 </html>
+
+
