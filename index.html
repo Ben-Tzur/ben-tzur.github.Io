@@ -7,318 +7,217 @@
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg:      #F5F5F3;
-      --surface: #FFFFFF;
-      --fg:      #111110;
-      --muted:   #888884;
-      --border:  #E4E4E0;
-      --hover:   #F0F0EC;
-      --blue:    #1A73E8;
-      --blue-lt: rgba(26,115,232,0.12);
-      --red:     #D63B2F;
-      --red-bg:  #FDF0EF;
-      --red-br:  #FACEC9;
+      --bg:#F5F5F3; --surface:#FFF; --fg:#111110; --muted:#888884;
+      --border:#E4E4E0; --hover:#F0F0EC;
+      --blue:#1A73E8; --blue-lt:rgba(26,115,232,0.12);
+      --red:#D63B2F; --red-bg:#FDF0EF; --red-br:#FACEC9;
     }
-
     html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: 'Heebo', sans-serif;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
+    body { background:var(--bg); color:var(--fg); font-family:'Heebo',sans-serif; min-height:100vh; -webkit-font-smoothing:antialiased; }
+    .page { max-width:1160px; margin:0 auto; padding:3rem 2rem 5rem; }
 
-    .page { max-width: 1160px; margin: 0 auto; padding: 3rem 2rem 5rem; }
-
-    /* ===== HERO ===== */
+    /* HERO */
     .hero {
-      background: var(--surface);
-      border-radius: 28px;
-      border: 1px solid var(--border);
-      padding: 2.5rem 3rem;
-      margin-bottom: 2.5rem;
-      display: flex;
-      align-items: center;
-      gap: 2.5rem;
-      flex-wrap: wrap;
+      background:var(--surface); border-radius:28px; border:1px solid var(--border);
+      padding:2.5rem 3rem; margin-bottom:2.5rem;
+      display:flex; align-items:center; gap:2.5rem; flex-wrap:wrap;
     }
-
     .artist-avatar {
-      flex-shrink: 0;
-      width: 100px; height: 100px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #2D2D2B 0%, #555550 100%);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.8rem; font-weight: 900; color: white;
-      letter-spacing: -0.03em;
-      position: relative; overflow: hidden;
-      border: 2px solid var(--border);
+      flex-shrink:0; width:100px; height:100px; border-radius:50%;
+      background:linear-gradient(135deg,#2D2D2B,#555550);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.8rem; font-weight:900; color:white; letter-spacing:-0.03em;
+      position:relative; overflow:hidden; border:2px solid var(--border);
     }
-    .artist-avatar img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover; border-radius: 50%;
-    }
-
-    .hero-text { flex: 1; min-width: 220px; }
-
+    .artist-avatar img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:50%; }
+    .hero-text { flex:1; min-width:220px; }
     .hero-tag {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 11px; font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--red); background: var(--red-bg);
-      border: 1px solid var(--red-br);
-      border-radius: 100px; padding: 4px 12px; margin-bottom: 0.9rem;
+      display:inline-flex; align-items:center; gap:6px;
+      font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:500;
+      letter-spacing:0.1em; text-transform:uppercase;
+      color:var(--red); background:var(--red-bg); border:1px solid var(--red-br);
+      border-radius:100px; padding:4px 12px; margin-bottom:0.9rem;
     }
     .hero-tag::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--red); }
-
-    .hero-title { font-weight: 900; font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
-    .hero-sub { font-size: 14px; color: var(--muted); margin-bottom: 1.4rem; }
-
-    .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-
+    .hero-title { font-weight:900; font-size:clamp(1.9rem,4vw,3rem); line-height:1.05; letter-spacing:-0.02em; margin-bottom:0.3rem; }
+    .hero-sub { font-size:14px; color:var(--muted); margin-bottom:1.4rem; }
+    .hero-actions { display:flex; gap:0.75rem; flex-wrap:wrap; }
     .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: 'Heebo', sans-serif; font-size: 14px; font-weight: 500;
-      border-radius: 100px; padding: 10px 22px;
-      cursor: pointer; border: none; transition: all 0.15s; white-space: nowrap;
+      display:inline-flex; align-items:center; gap:8px;
+      font-family:'Heebo',sans-serif; font-size:14px; font-weight:500;
+      border-radius:100px; padding:10px 22px; cursor:pointer; border:none; transition:all 0.15s;
     }
-    .btn-dark { background: var(--fg); color: white; }
-    .btn-dark:hover { background: #333; }
-    .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--border); }
-    .btn-ghost:hover { background: var(--hover); }
+    .btn-dark { background:var(--fg); color:white; }
+    .btn-dark:hover { background:#333; }
+    .btn-ghost { background:transparent; color:var(--fg); border:1px solid var(--border); }
+    .btn-ghost:hover { background:var(--hover); }
+    .hero-stat { margin-right:auto; text-align:left; flex-shrink:0; }
+    .stat-num { font-family:'Space Grotesk',sans-serif; font-size:2.4rem; font-weight:600; line-height:1; }
+    .stat-label { font-size:12px; color:var(--muted); margin-top:2px; font-family:'Space Grotesk',sans-serif; }
 
-    .hero-stat { margin-right: auto; text-align: left; flex-shrink: 0; }
-    .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 2.4rem; font-weight: 600; line-height: 1; }
-    .stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; font-family: 'Space Grotesk', sans-serif; }
-
-    /* ===== SEARCH + SECTION HEADER ===== */
-    .sec-hdr {
-      display: flex; align-items: center; gap: 1rem;
-      margin-bottom: 1.25rem; flex-wrap: wrap;
-    }
-    .sec-title {
-      font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
-    }
-
-    .search-wrap {
-      position: relative; flex: 1; max-width: 320px;
-    }
-    .search-icon {
-      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-      color: var(--muted); pointer-events: none;
-    }
+    /* SEARCH + SECTION HEADER */
+    .sec-hdr { display:flex; align-items:center; gap:1rem; margin-bottom:1.25rem; flex-wrap:wrap; }
+    .sec-title { font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+    .search-wrap { position:relative; flex:1; max-width:320px; }
+    .search-icon { position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none; }
     .search-input {
-      width: 100%; padding: 9px 40px 9px 36px;
-      font-family: 'Heebo', sans-serif; font-size: 14px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 100px; color: var(--fg); outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      width:100%; padding:9px 40px 9px 36px;
+      font-family:'Heebo',sans-serif; font-size:14px;
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:100px; color:var(--fg); outline:none;
+      transition:border-color 0.15s, box-shadow 0.15s;
     }
-    .search-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-lt); }
-    .search-input::placeholder { color: var(--muted); }
-    .search-clear {
-      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-      background: none; border: none; cursor: pointer; color: var(--muted);
-      display: none; padding: 2px;
-    }
-    .search-clear:hover { color: var(--fg); }
+    .search-input:focus { border-color:var(--blue); box-shadow:0 0 0 3px var(--blue-lt); }
+    .search-input::placeholder { color:var(--muted); }
+    .search-clear { position:absolute; left:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--muted); display:none; padding:2px; }
+    .search-clear:hover { color:var(--fg); }
+    .count-lbl { font-family:'Space Grotesk',sans-serif; font-size:12px; color:var(--muted); margin-right:auto; }
 
-    .count-lbl { font-family: 'Space Grotesk', sans-serif; font-size: 12px; color: var(--muted); margin-right: auto; }
+    /* CARDS GRID */
+    .cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:1rem; }
 
-    /* ===== CARDS GRID ===== */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 1rem;
-    }
-
-    /* ===== SONG CARD ===== */
+    /* SONG CARD */
     .song-card {
-      background: var(--surface);
-      border-radius: 20px; border: 1px solid var(--border);
-      overflow: visible; cursor: pointer;
-      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
-      animation: rise 0.38s cubic-bezier(.2,.8,.2,1) both;
-      display: flex; flex-direction: column;
+      background:var(--surface); border-radius:20px; border:1px solid var(--border);
+      overflow:hidden; cursor:pointer;
+      transition:transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+      animation:rise 0.38s cubic-bezier(.2,.8,.2,1) both;
+      display:flex; flex-direction:column;
     }
-    @keyframes rise { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes rise { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+    .song-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(0,0,0,0.09); border-color:#CCC; }
+    .song-card.playing { border-color:var(--blue); box-shadow:0 0 0 2px var(--blue-lt); }
+    .song-card.hidden { display:none; }
 
-    .song-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.09); border-color: #CCC; }
-    .song-card.playing { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue-lt); }
-    .song-card.hidden { display: none; }
-
-    /* art */
-    .card-art {
-      width: 100%; aspect-ratio: 1;
-      position: relative; background: var(--bg);
-      overflow: hidden;
-      border-radius: 18px 18px 0 0;
-    }
-    .card-art img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform 0.3s;
-    }
-    .song-card:hover .card-art img { transform: scale(1.04); }
-    .card-art-placeholder {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #EAEAE6 0%, #D8D8D4 100%);
-    }
-
+    /* ART */
+    .card-art { width:100%; aspect-ratio:1; position:relative; background:var(--bg); overflow:hidden; }
+    .card-art img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.3s; }
+    .song-card:hover .card-art img { transform:scale(1.04); }
+    .card-art-ph { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#EAEAE6,#D8D8D4); }
     .card-num {
-      position: absolute; top: 10px; right: 10px;
-      background: rgba(255,255,255,0.9); backdrop-filter: blur(6px);
-      border-radius: 8px; font-family: 'Space Grotesk', sans-serif;
-      font-size: 11px; font-weight: 600; color: var(--muted); padding: 3px 8px;
+      position:absolute; top:10px; right:10px;
+      background:rgba(255,255,255,0.9); backdrop-filter:blur(6px);
+      border-radius:8px; font-family:'Space Grotesk',sans-serif;
+      font-size:11px; font-weight:600; color:var(--muted); padding:3px 8px;
     }
 
-    /* play button overlay */
+    /* PLAY BUTTON */
     .card-play-btn {
-      position: absolute; bottom: 10px; left: 10px;
-      width: 44px; height: 44px; border-radius: 50%;
-      background: var(--fg); color: white; border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; transform: translateY(6px);
-      transition: opacity 0.18s, transform 0.18s, background 0.15s;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.28);
-      z-index: 2;
+      position:absolute; bottom:12px; left:12px;
+      width:44px; height:44px; border-radius:50%;
+      background:var(--fg); color:white; border:none; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; transform:translateY(6px);
+      transition:opacity 0.18s, transform 0.18s, background 0.15s;
+      box-shadow:0 4px 14px rgba(0,0,0,0.28); z-index:4;
     }
     .song-card:hover .card-play-btn,
-    .song-card.playing .card-play-btn { opacity: 1; transform: translateY(0); }
-    .song-card.playing .card-play-btn { background: var(--blue); }
-    .song-card.playing .card-play-btn.pulse::after {
-      content: ''; position: absolute; inset: -5px; border-radius: 50%;
-      border: 2px solid var(--blue);
-      animation: pulse-ring 1.4s ease-out infinite;
+    .song-card.playing .card-play-btn { opacity:1; transform:translateY(0); }
+    .song-card.playing .card-play-btn { background:var(--blue); }
+    .song-card.playing .card-play-btn::after {
+      content:''; position:absolute; inset:-5px; border-radius:50%;
+      border:2px solid var(--blue); animation:pulse-ring 1.4s ease-out infinite;
     }
     @keyframes pulse-ring { 0%{opacity:.6;transform:scale(1);} 100%{opacity:0;transform:scale(1.6);} }
 
-    /* ===== PROGRESS BAR ON CARD ===== */
+    /* PROGRESS OVERLAY */
     .card-prog-area {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 10px 12px 10px;
-      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
-      opacity: 0; transition: opacity 0.2s;
-      z-index: 3;
+      position:absolute; bottom:0; left:0; right:0;
+      padding:28px 12px 10px;
+      background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,transparent 100%);
+      opacity:0; transition:opacity 0.2s; z-index:3;
     }
-    .song-card.playing .card-prog-area { opacity: 1; }
-
+    .song-card.playing .card-prog-area { opacity:1; }
     .prog-track {
-      width: 100%; height: 4px;
-      background: rgba(255,255,255,0.35);
-      border-radius: 100px; cursor: pointer;
-      position: relative;
+      width:100%; height:4px; background:rgba(255,255,255,0.3);
+      border-radius:100px; cursor:pointer; position:relative;
+      /* bigger hit area */
+      padding:8px 0; margin:-8px 0; box-sizing:content-box;
     }
+    .prog-track-inner { width:100%; height:4px; background:rgba(255,255,255,0.3); border-radius:100px; position:relative; overflow:visible; }
     .prog-fill {
-      height: 100%; background: white;
-      border-radius: 100px; width: 0%;
-      transition: width 0.1s linear;
-      position: relative;
+      height:100%; background:white; border-radius:100px;
+      width:0%; transition:width 0.1s linear; position:relative;
     }
-    /* scrub knob */
     .prog-fill::after {
-      content: '';
-      position: absolute; left: -5px; top: 50%; transform: translateY(-50%);
-      width: 12px; height: 12px; border-radius: 50%;
-      background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-      opacity: 0; transition: opacity 0.15s;
+      content:''; position:absolute; left:-6px; top:50%; transform:translateY(-50%);
+      width:14px; height:14px; border-radius:50%;
+      background:white; box-shadow:0 1px 4px rgba(0,0,0,0.35);
+      opacity:0; transition:opacity 0.15s;
     }
-    .prog-track:hover .prog-fill::after { opacity: 1; }
-
+    .prog-track:hover .prog-fill::after,
+    .prog-track.dragging .prog-fill::after { opacity:1; }
     .prog-times {
-      display: flex; justify-content: space-between;
-      margin-top: 5px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 10px; color: rgba(255,255,255,0.85); font-weight: 500;
+      display:flex; justify-content:space-between; margin-top:6px;
+      font-family:'Space Grotesk',sans-serif; font-size:10px;
+      color:rgba(255,255,255,0.85); font-weight:500; pointer-events:none;
     }
 
-    /* mini bars animation */
-    .mini-bars { display: flex; align-items: flex-end; gap: 2px; height: 13px; }
-    .mini-bar { width: 3px; background: white; border-radius: 2px; animation: bar-b 0.65s ease-in-out infinite alternate; }
-    .mini-bar:nth-child(1) { height: 7px; animation-delay: 0s; }
-    .mini-bar:nth-child(2) { height: 13px; animation-delay: 0.18s; }
-    .mini-bar:nth-child(3) { height: 9px; animation-delay: 0.09s; }
+    /* LOADING INDICATOR inside card while fetching via proxy */
+    .card-loading {
+      position:absolute; inset:0; background:rgba(255,255,255,0.7);
+      display:none; align-items:center; justify-content:center; z-index:5;
+    }
+    .song-card.buffering .card-loading { display:flex; }
+    .spin-sm { animation:spin 0.9s linear infinite; }
+    @keyframes spin { to{transform:rotate(360deg);} }
+
+    /* ERROR BADGE */
+    .card-err-badge {
+      position:absolute; bottom:0; left:0; right:0;
+      background:rgba(214,59,47,0.9); color:white;
+      font-family:'Space Grotesk',sans-serif; font-size:10px;
+      text-align:center; padding:5px 6px; display:none;
+    }
+    .song-card.load-err .card-err-badge { display:block; }
+
+    /* MINI BARS */
+    .mini-bars { display:flex; align-items:flex-end; gap:2px; height:13px; }
+    .mini-bar { width:3px; background:white; border-radius:2px; animation:bar-b 0.65s ease-in-out infinite alternate; }
+    .mini-bar:nth-child(1){height:7px;animation-delay:0s;}
+    .mini-bar:nth-child(2){height:13px;animation-delay:0.18s;}
+    .mini-bar:nth-child(3){height:9px;animation-delay:0.09s;}
     @keyframes bar-b { from{transform:scaleY(0.3);} to{transform:scaleY(1);} }
 
-    /* card body */
-    .card-body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
-    .card-name {
-      font-size: 14px; font-weight: 700; line-height: 1.35; color: var(--fg);
-      transition: color 0.15s;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-    }
-    .song-card.playing .card-name { color: var(--blue); }
-
-    .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
-    .card-dur { font-family: 'Space Grotesk', sans-serif; font-size: 11px; color: var(--muted); font-weight: 500; }
+    /* CARD BODY */
+    .card-body { padding:14px 16px 16px; flex:1; display:flex; flex-direction:column; gap:10px; }
+    .card-name { font-size:14px; font-weight:700; line-height:1.35; color:var(--fg); transition:color 0.15s; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .song-card.playing .card-name { color:var(--blue); }
+    .card-footer { display:flex; align-items:center; justify-content:space-between; margin-top:auto; }
+    .card-dur { font-family:'Space Grotesk',sans-serif; font-size:11px; color:var(--muted); font-weight:500; }
     .card-dl {
-      width: 28px; height: 28px; border-radius: 50%;
-      border: 1px solid var(--border); background: transparent;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      color: var(--muted); text-decoration: none; transition: all 0.15s;
+      width:28px; height:28px; border-radius:50%;
+      border:1px solid var(--border); background:transparent;
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      color:var(--muted); text-decoration:none; transition:all 0.15s;
     }
-    .card-dl:hover { background: var(--fg); color: white; border-color: var(--fg); }
+    .card-dl:hover { background:var(--fg); color:white; border-color:var(--fg); }
 
-    /* error banner */
-    .card-err-banner {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: rgba(214,59,47,0.92); color: white;
-      font-family: 'Space Grotesk', sans-serif; font-size: 10px;
-      text-align: center; padding: 4px 6px;
-      border-radius: 0 0 18px 18px;
-      display: none;
-    }
-    .song-card.load-err .card-err-banner { display: block; }
+    /* NO RESULTS */
+    .no-results { grid-column:1/-1; text-align:center; padding:4rem 0; color:var(--muted); font-family:'Space Grotesk',sans-serif; font-size:14px; display:none; }
 
-    /* ===== NO RESULTS ===== */
-    .no-results {
-      grid-column: 1 / -1; text-align: center;
-      padding: 4rem 0; color: var(--muted);
-      font-family: 'Space Grotesk', sans-serif; font-size: 14px;
-      display: none;
-    }
+    /* LOADING */
+    #loading { grid-column:1/-1; padding:4rem 0; text-align:center; font-family:'Space Grotesk',sans-serif; font-size:13px; letter-spacing:0.08em; color:var(--muted); }
+    .spin-lg { display:block; margin:0 auto 1rem; animation:spin 1s linear infinite; }
+    #error-msg { grid-column:1/-1; padding:1.25rem 1.5rem; color:var(--red); font-family:'Space Grotesk',sans-serif; font-size:13px; border:1px solid var(--red-br); border-radius:12px; background:var(--red-bg); display:none; }
 
-    /* ===== LOADING / ERROR ===== */
-    #loading {
-      grid-column: 1 / -1; padding: 4rem 0; text-align: center;
-      font-family: 'Space Grotesk', sans-serif; font-size: 13px;
-      letter-spacing: 0.08em; color: var(--muted);
-    }
-    .spin { display: block; margin: 0 auto 1rem; animation: spin 1s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    footer { margin-top:3rem; text-align:center; font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:0.08em; color:var(--muted); text-transform:uppercase; }
 
-    #error-msg {
-      grid-column: 1 / -1; padding: 1.25rem 1.5rem; color: var(--red);
-      font-family: 'Space Grotesk', sans-serif; font-size: 13px;
-      border: 1px solid var(--red-br); border-radius: 12px;
-      background: var(--red-bg); display: none;
-    }
-
-    /* ===== FOOTER ===== */
-    footer { margin-top: 3rem; text-align: center; font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 600px) {
-      .page { padding: 1.25rem 1rem 4rem; }
-      .hero { gap: 1.25rem; padding: 1.5rem; }
-      .hero-stat { margin-right: 0; }
-      .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
-      .search-wrap { max-width: 100%; }
+    @media (max-width:600px) {
+      .page { padding:1.25rem 1rem 4rem; }
+      .hero { gap:1.25rem; padding:1.5rem; }
+      .hero-stat { margin-right:0; }
+      .cards-grid { grid-template-columns:repeat(2,1fr); gap:0.75rem; }
+      .search-wrap { max-width:100%; }
     }
   </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- HERO -->
   <div class="hero">
-    <div class="artist-avatar" id="avatar">
+    <div class="artist-avatar">
       בצ
       <img id="artist-img" src="" alt="בן צור" />
     </div>
@@ -343,13 +242,12 @@
     </div>
   </div>
 
-  <!-- SECTION HEADER + SEARCH -->
   <div class="sec-hdr">
     <span class="sec-title">רשימת שירים</span>
     <div class="search-wrap">
       <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <input class="search-input" id="search" type="text" placeholder="חפש שיר..." oninput="onSearch(this.value)" />
-      <button class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="נקה חיפוש">
+      <button class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="נקה">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
@@ -358,7 +256,7 @@
 
   <div class="cards-grid" id="grid">
     <div id="loading">
-      <svg class="spin" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <svg class="spin-lg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <circle cx="12" cy="12" r="10" stroke-opacity="0.18"/>
         <path d="M12 2a10 10 0 0110 10" stroke-linecap="round"/>
       </svg>
@@ -372,17 +270,30 @@
 </div>
 
 <script>
+  // ─── CORS PROXY ────────────────────────────────────────────────────────────
+  // allorigins.win wraps any URL and adds Access-Control-Allow-Origin: *
+  // We use the /raw/ endpoint which streams the file as-is.
+  function proxyUrl(original) {
+    // If the URL is already on the same origin or is a data URL, return as-is
+    try {
+      const u = new URL(original);
+      if (u.origin === location.origin) return original;
+    } catch(e) { return original; }
+    return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(original);
+  }
+
+  // ─── SVG / HTML CONSTANTS ──────────────────────────────────────────────────
   const PLAY_SVG  = `<svg width="12" height="13" viewBox="0 0 12 13" fill="currentColor"><path d="M1 1l10 5.5L1 12V1z"/></svg>`;
   const PAUSE_SVG = `<svg width="11" height="13" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="0" width="4.5" height="14" rx="1.5"/><rect x="8.5" y="0" width="4.5" height="14" rx="1.5"/></svg>`;
   const BARS_SVG  = `<div class="mini-bars"><div class="mini-bar"></div><div class="mini-bar"></div><div class="mini-bar"></div></div>`;
   const DL_SVG    = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
   const NOTE_SVG  = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#AAA" stroke-width="1"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`;
+  const SPIN_SVG  = `<svg class="spin-sm" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A73E8" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.2"/><path d="M12 2a10 10 0 0110 10" stroke-linecap="round"/></svg>`;
 
   let curAudio = null, curCard = null, curIdx = -1;
   let cards = [], audios = [], songs = [];
-  let visibleCards = [];   // cards matching current search
 
-  const fmt = s => isNaN(s)||s===Infinity ? '--:--' : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+  const fmt = s => isNaN(s)||!isFinite(s) ? '--:--' : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
 
   function parse(raw) {
     return raw.trim().split(/\n[ \t]*\n/).reduce((acc, blk) => {
@@ -396,12 +307,10 @@
     if (!curAudio) return;
     curAudio.pause();
     if (curCard) {
-      curCard.classList.remove('playing');
-      const btn = curCard.querySelector('.card-play-btn');
-      btn.classList.remove('pulse');
-      btn.innerHTML = PLAY_SVG;
+      curCard.classList.remove('playing', 'buffering');
+      curCard.querySelector('.card-play-btn').innerHTML = PLAY_SVG;
     }
-    curAudio = null; curCard = null;
+    curAudio = null; curCard = null; curIdx = -1;
   }
 
   function playIdx(idx) {
@@ -410,43 +319,50 @@
     const audio = audios[idx];
     if (!card || !audio) return;
 
-    // try to play; if fails try a no-cors proxy workaround via audio element src
-    audio.play().catch(err => {
-      console.warn('play failed:', err);
-      card.classList.add('load-err');
-    });
-
     curAudio = audio; curCard = card; curIdx = idx;
-    card.classList.add('playing');
-    const btn = card.querySelector('.card-play-btn');
-    btn.classList.add('pulse');
-    btn.innerHTML = BARS_SVG;
+    card.classList.add('playing', 'buffering');
+    card.querySelector('.card-play-btn').innerHTML = BARS_SVG;
+
+    audio.play()
+      .then(() => { card.classList.remove('buffering'); })
+      .catch(err => {
+        console.warn('play failed:', err.message);
+        card.classList.remove('playing', 'buffering');
+        card.classList.add('load-err');
+        curAudio = null; curCard = null; curIdx = -1;
+      });
   }
 
-  function playAll()    { const v = visibleCards.filter(c=>!c.classList.contains('hidden')); if(v.length) playIdx(parseInt(v[0].dataset.idx)); }
-  function shuffleAll() { const v = visibleCards.filter(c=>!c.classList.contains('hidden')); if(v.length) { const c=v[Math.floor(Math.random()*v.length)]; playIdx(parseInt(c.dataset.idx)); } }
+  function visibleList() { return cards.filter(c => !c.classList.contains('hidden')); }
 
-  /* ===== SEARCH ===== */
+  function playAll()    { const v = visibleList(); if (v.length) playIdx(+v[0].dataset.idx); }
+  function shuffleAll() { const v = visibleList(); if (v.length) playIdx(+v[Math.floor(Math.random()*v.length)].dataset.idx); }
+
+  /* SEARCH */
   function onSearch(val) {
     const q = val.trim().toLowerCase();
     document.getElementById('search-clear').style.display = q ? 'flex' : 'none';
     let shown = 0;
-    cards.forEach(card => {
-      const name = songs[card.dataset.idx].name.toLowerCase();
-      const match = !q || name.includes(q);
-      card.classList.toggle('hidden', !match);
+    cards.forEach(c => {
+      const match = !q || songs[c.dataset.idx].name.toLowerCase().includes(q);
+      c.classList.toggle('hidden', !match);
       if (match) shown++;
     });
     document.getElementById('no-results').style.display = shown ? 'none' : 'block';
     document.getElementById('count-lbl').textContent = q ? `${shown} תוצאות` : `${songs.length} שירים`;
   }
+  function clearSearch() { document.getElementById('search').value = ''; onSearch(''); }
 
-  function clearSearch() {
-    document.getElementById('search').value = '';
-    onSearch('');
+  /* SCRUB HELPERS */
+  function scrubTo(audio, progTrack, clientX) {
+    if (!audio.duration) return;
+    const r = progTrack.getBoundingClientRect();
+    // RTL: right edge = start (0%), left edge = end (100%)
+    const ratio = 1 - (clientX - r.left) / r.width;
+    audio.currentTime = Math.max(0, Math.min(1, ratio)) * audio.duration;
   }
 
-  /* ===== MAKE CARD ===== */
+  /* MAKE CARD */
   function makeCard(song, idx) {
     const card = document.createElement('div');
     card.className = 'song-card';
@@ -460,14 +376,17 @@
         <button class="card-play-btn" aria-label="נגן">${PLAY_SVG}</button>
         <div class="card-prog-area">
           <div class="prog-track">
-            <div class="prog-fill"></div>
+            <div class="prog-track-inner">
+              <div class="prog-fill"></div>
+            </div>
           </div>
           <div class="prog-times">
             <span class="t-cur">0:00</span>
             <span class="t-dur">--:--</span>
           </div>
         </div>
-        <div class="card-err-banner">שגיאת טעינה</div>
+        <div class="card-loading">${SPIN_SVG}</div>
+        <div class="card-err-badge">שגיאת טעינה &mdash; CORS</div>
       </div>
       <div class="card-body">
         <div class="card-name">${song.name}</div>
@@ -477,26 +396,27 @@
         </div>
       </div>`;
 
-    /* load image — avoid CORS issues by setting src last */
+    /* image — proxy helps if hotlink blocked */
     const img = card.querySelector('.card-art img');
-    img.onerror = () => { img.parentNode.querySelector('img') && img.remove(); card.querySelector('.card-art').innerHTML = `<div class="card-art-placeholder">${NOTE_SVG}</div>` + card.querySelector('.card-art').innerHTML.replace(/<img[^>]*>/, ''); };
-    // simple: just set src, browser handles fallback
-    img.src = song.img;
-    img.onerror = () => { img.replaceWith(Object.assign(document.createElement('div'), { className: 'card-art-placeholder', innerHTML: NOTE_SVG })); };
+    img.onerror = () => {
+      const ph = document.createElement('div');
+      ph.className = 'card-art-ph';
+      ph.innerHTML = NOTE_SVG;
+      img.replaceWith(ph);
+    };
+    img.src = song.img; // try direct first; onerror catches
 
-    /* audio — use crossOrigin anonymous to help with CORS */
-    const audio = new Audio();
-    audio.crossOrigin = 'anonymous';
+    /* audio — proxied through allorigins */
+    const proxiedSrc = proxyUrl(song.audio);
+    const audio = new Audio(proxiedSrc);
     audio.preload = 'none';
-    audio.src = song.audio;
     audios[idx] = audio;
 
-    const playBtn   = card.querySelector('.card-play-btn');
-    const progTrack = card.querySelector('.prog-track');
-    const progFill  = card.querySelector('.prog-fill');
-    const tCur      = card.querySelector('.t-cur');
-    const tDur      = card.querySelector('.t-dur');
-    const durEl     = card.querySelector('.card-dur');
+    const progTrack  = card.querySelector('.prog-track');
+    const progFill   = card.querySelector('.prog-fill');
+    const tCur       = card.querySelector('.t-cur');
+    const tDur       = card.querySelector('.t-dur');
+    const durEl      = card.querySelector('.card-dur');
 
     audio.addEventListener('loadedmetadata', () => {
       tDur.textContent = fmt(audio.duration);
@@ -505,61 +425,87 @@
 
     audio.addEventListener('timeupdate', () => {
       if (!audio.duration) return;
-      const pct = (audio.currentTime / audio.duration) * 100;
-      progFill.style.width = pct + '%';
+      progFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
       tCur.textContent = fmt(audio.currentTime);
     });
+
+    audio.addEventListener('waiting', () => { card.classList.add('buffering'); });
+    audio.addEventListener('playing', () => { card.classList.remove('buffering'); });
 
     audio.addEventListener('ended', () => {
       stopCurrent();
       audio.currentTime = 0;
       progFill.style.width = '0%';
       tCur.textContent = '0:00';
-      // autoplay next visible
-      const vis = cards.filter(c => !c.classList.contains('hidden'));
-      const ci  = vis.findIndex(c => parseInt(c.dataset.idx) === idx);
-      if (ci !== -1 && ci + 1 < vis.length) playIdx(parseInt(vis[ci+1].dataset.idx));
+      const vis = visibleList();
+      const ci = vis.findIndex(c => +c.dataset.idx === idx);
+      if (ci !== -1 && ci + 1 < vis.length) playIdx(+vis[ci+1].dataset.idx);
     });
 
-    audio.addEventListener('error', () => { card.classList.add('load-err'); });
+    audio.addEventListener('error', () => {
+      card.classList.remove('buffering');
+      if (card.classList.contains('playing')) {
+        card.classList.remove('playing');
+        card.classList.add('load-err');
+        if (curCard === card) { curAudio = null; curCard = null; curIdx = -1; }
+      }
+    });
 
-    /* scrub on progress track */
+    /* SCRUB — click */
     progTrack.addEventListener('click', e => {
       e.stopPropagation();
-      if (!audio.duration) return;
-      const r = progTrack.getBoundingClientRect();
-      // RTL: right side = start
-      const ratio = 1 - (e.clientX - r.left) / r.width;
-      audio.currentTime = Math.max(0, Math.min(1, ratio)) * audio.duration;
+      if (curCard !== card) return;
+      scrubTo(audio, progTrack, e.clientX);
     });
 
-    /* drag-to-scrub */
+    /* SCRUB — drag (mouse) */
     let dragging = false;
-    progTrack.addEventListener('mousedown', e => { dragging = true; e.stopPropagation(); });
-    document.addEventListener('mousemove', e => {
-      if (!dragging || !audio.duration) return;
-      const r = progTrack.getBoundingClientRect();
-      const ratio = 1 - (e.clientX - r.left) / r.width;
-      audio.currentTime = Math.max(0, Math.min(1, ratio)) * audio.duration;
+    progTrack.addEventListener('mousedown', e => {
+      if (curCard !== card) return;
+      dragging = true;
+      progTrack.classList.add('dragging');
+      e.stopPropagation();
     });
-    document.addEventListener('mouseup', () => { dragging = false; });
+    document.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      scrubTo(audio, progTrack, e.clientX);
+    });
+    document.addEventListener('mouseup', () => {
+      if (!dragging) return;
+      dragging = false;
+      progTrack.classList.remove('dragging');
+    });
 
-    /* touch scrub */
-    progTrack.addEventListener('touchstart', e => { dragging = true; e.stopPropagation(); }, {passive:true});
-    document.addEventListener('touchmove', e => {
-      if (!dragging || !audio.duration) return;
-      const r = progTrack.getBoundingClientRect();
-      const ratio = 1 - (e.touches[0].clientX - r.left) / r.width;
-      audio.currentTime = Math.max(0, Math.min(1, ratio)) * audio.duration;
+    /* SCRUB — touch */
+    progTrack.addEventListener('touchstart', e => {
+      if (curCard !== card) return;
+      dragging = true;
+      progTrack.classList.add('dragging');
+      e.stopPropagation();
     }, {passive:true});
-    document.addEventListener('touchend', () => { dragging = false; });
+    document.addEventListener('touchmove', e => {
+      if (!dragging) return;
+      scrubTo(audio, progTrack, e.touches[0].clientX);
+    }, {passive:true});
+    document.addEventListener('touchend', () => {
+      dragging = false;
+      progTrack.classList.remove('dragging');
+    });
 
-    /* card click (not on dl/prog) */
+    /* CARD CLICK */
     card.addEventListener('click', e => {
       if (e.target.closest('.card-dl') || e.target.closest('.prog-track')) return;
       if (curAudio === audio) {
-        if (!audio.paused) { audio.pause(); card.classList.remove('playing'); playBtn.innerHTML = PAUSE_SVG; playBtn.classList.remove('pulse'); }
-        else { audio.play().catch(()=>{}); card.classList.add('playing'); playBtn.innerHTML = BARS_SVG; playBtn.classList.add('pulse'); }
+        if (!audio.paused) {
+          audio.pause();
+          card.classList.remove('playing');
+          card.querySelector('.card-play-btn').innerHTML = PAUSE_SVG;
+        } else {
+          card.classList.add('buffering');
+          audio.play()
+            .then(() => { card.classList.add('playing'); card.classList.remove('buffering'); card.querySelector('.card-play-btn').innerHTML = BARS_SVG; })
+            .catch(() => { card.classList.remove('buffering'); card.classList.add('load-err'); });
+        }
       } else {
         playIdx(idx);
       }
@@ -570,16 +516,15 @@
     return card;
   }
 
-  /* ===== INIT ===== */
+  /* INIT */
   async function init() {
     const grid   = document.getElementById('grid');
     const loadEl = document.getElementById('loading');
     const errEl  = document.getElementById('error-msg');
     const errTxt = document.getElementById('error-text');
 
-    /* artist image with fallback */
     const ai = document.getElementById('artist-img');
-    ai.src = 'https://www.prog.co.il/attachments/1779620094443-png.2252968/?hash=a4f7499190adf18fce28d82c032a559d';
+    ai.src = proxyUrl('https://www.prog.co.il/attachments/1779620094443-png.2252968/?hash=a4f7499190adf18fce28d82c032a559d');
     ai.onerror = () => ai.remove();
 
     try {
@@ -597,9 +542,6 @@
         cards[i] = c;
         grid.appendChild(c);
       });
-
-      visibleCards = [...cards];
-
     } catch (e) {
       loadEl.remove();
       errTxt.textContent = e.message;
