@@ -98,16 +98,16 @@
     }
 
     .card-play-btn {
-      position:absolute; bottom:12px; left:12px;
-      width:44px; height:44px; border-radius:50%;
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:52px; height:52px; border-radius:50%;
       background:var(--fg); color:white; border:none; cursor:pointer;
       display:flex; align-items:center; justify-content:center;
-      opacity:0; transform:translateY(6px);
+      opacity:0; transform:translate(-50%,-50%) scale(0.85);
       transition:opacity 0.18s, transform 0.18s, background 0.15s;
       box-shadow:0 4px 14px rgba(0,0,0,0.28); z-index:4;
     }
     .song-card:hover .card-play-btn,
-    .song-card.playing .card-play-btn { opacity:1; transform:translateY(0); }
+    .song-card.playing .card-play-btn { opacity:1; transform:translate(-50%,-50%) scale(1); }
     .song-card.playing .card-play-btn { background:var(--blue); }
     .song-card.playing .card-play-btn::after {
       content:''; position:absolute; inset:-5px; border-radius:50%;
@@ -343,9 +343,14 @@
     card.dataset.idx = idx;
     card.style.animationDelay = `${idx * 0.05}s`;
 
+    // build innerHTML with img src baked in — avoids closure/timing issues
+    const escapedImg   = song.img.replace(/"/g, '&quot;');
+    const escapedName  = song.name.replace(/"/g, '&quot;');
+    const escapedAudio = song.audio.replace(/"/g, '&quot;');
+
     card.innerHTML = `
       <div class="card-art">
-        <img alt="${song.name}" loading="lazy">
+        <img src="${escapedImg}" alt="${escapedName}" loading="lazy">
         <div class="card-num">${String(idx+1).padStart(2,'0')}</div>
         <button class="card-play-btn" aria-label="נגן">${PLAY_SVG}</button>
         <div class="card-prog-area">
@@ -364,14 +369,13 @@
         <div class="card-name">${song.name}</div>
         <div class="card-footer">
           <span class="card-dur">--:--</span>
-          <a class="card-dl" href="${song.audio}" download="${song.name}.mp3" aria-label="הורד">${DL_SVG}</a>
+          <a class="card-dl" href="${escapedAudio}" download="${escapedName}.mp3" aria-label="הורד">${DL_SVG}</a>
         </div>
       </div>`;
 
-    // image
+    // image fallback
     const img = card.querySelector('.card-art img');
     img.onerror = () => { const ph = document.createElement('div'); ph.className='card-art-ph'; ph.innerHTML=NOTE_SVG; img.replaceWith(ph); };
-    img.src = song.img;
 
     // audio — NO crossOrigin, direct src, exactly like first working version
     const audio = new Audio(song.audio);
@@ -483,5 +487,3 @@
 </script>
 </body>
 </html>
-
-
